@@ -1,105 +1,143 @@
+
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Лабораторная работа',
-       home: AppBar(title: Text("123"),)
-
+      title: "Лабораторная работа №3",
+      home: Scaffold(
+        
+        appBar: AppBar(
+          title: Text('Егоров Евгений Александрович - Вариант №9'),
+        ),
+        body: MyHomePage(),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+final GlobalKey formKey = GlobalKey();
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class MyHomePage extends StatelessWidget {
+  
+  MyHomePage({super.key});
+  final formKey = GlobalKey<FormState>();
+  final field1 = TextEditingController();
+  final field2 = TextEditingController();
+  final field3 = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    return Container(
+      padding: const EdgeInsets.all(10.0),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: <Widget>[
+                const Text(
+                  
+                  "Начальная скорость:",
+                  style: TextStyle(fontSize: 16.0),
+
+                ),
+                
+                TextFormField(
+                  controller: field1,
+                  keyboardType: TextInputType.numberWithOptions(),
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  validator: (value) {
+                  if(value!.isEmpty)
+                  {
+                    return "Введите значение.";
+                  }
+                  return null;
+                }),
+                SizedBox(height: 40.0),
+//---------------------------------------------------------------
+                const Text(
+                  "Конечная скорость:",
+                  style: TextStyle(fontSize: 16.0),
+                ),
+                TextFormField(
+                  controller: field2,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  validator: (value) {
+                  if(value!.isEmpty)
+                  {
+                    return "Введите значение.";
+                  }
+                  return null;
+                }),
+                SizedBox(height: 40.0),
+//------------------------------------------------------------------
+                const Text(
+                  "Время",
+                  style: TextStyle(fontSize: 16.0),
+                ),
+                TextFormField(
+                  controller: field3,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  validator: (value) {
+                  if(value!.isEmpty)
+                  {
+                    return "Введите значение.";
+                  }
+                 return null;
+                }),
+
+//------------------------------------------------------------------
+                const SizedBox(height: 10.0,),
+                ElevatedButton(
+                  onPressed: (){
+                    if(formKey.currentState!.validate()){
+                      Navigator.push(context,
+                       MaterialPageRoute(builder: (context) => SecondScreen(field1: field1.text, field2: field2.text, field3: field3.text)));
+                    }
+                  },
+                child: const Text('Отправить')
+                ),
+              ],
+            ),
+          ),
+      );
+  }
+}
+
+class SecondScreen extends StatelessWidget{
+  final String field1;
+   final String field2;
+    final String field3;
+    
+  SecondScreen({required this.field1, required this.field2, required this.field3, super.key});
+  @override
+  Widget build(BuildContext context) {
+    var f1 = int.parse(field1);
+    var f2 = int.parse(field2);
+    var f3 = int.parse(field3);
+    var a = (f2 - f1) / f3;
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      appBar: AppBar(title: Text('Егоров Евгений Александрович - Вариант №9'),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+        
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+          children: [
+            
+            Text("Начальная скорость: "+field1),
+            Text("Конечная скорость: "+field2),
+            Text("Время: "+field3),
+            Text("Ускорение: "+a.toString()),
           ],
-        ),
+        ),    
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
