@@ -116,7 +116,7 @@ class SecondScreen extends StatelessWidget{
    final String field2;
     final String field3;
     
-  SecondScreen({required this.field1, required this.field2, required this.field3, super.key});
+  const SecondScreen({required this.field1, required this.field2, required this.field3, super.key});
   @override
   Widget build(BuildContext context) {
     var f1 = int.parse(field1);
@@ -131,10 +131,10 @@ class SecondScreen extends StatelessWidget{
         child: Column(
           children: [
             
-            Text("Начальная скорость: "+field1),
-            Text("Конечная скорость: "+field2),
-            Text("Время: "+field3),
-            Text("Ускорение: "+a.toString()),
+            Text("Начальная скорость: $field1"),
+            Text("Конечная скорость: $field2"),
+            Text("Время: $field3"),
+            Text("Ускорение: $a"),
           ],
         ),    
       ),
